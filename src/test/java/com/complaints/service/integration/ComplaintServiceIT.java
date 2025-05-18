@@ -20,7 +20,7 @@ public class ComplaintServiceIT extends BaseConfig {
     @Test
     void shouldReturnAllComplaints() {
         //given
-        complaintsRepository.save(new ComplaintEntity(new ComplaintId(1, "A"), "Message", Instant.now(), "POLAND", 1));
+        complaintsRepository.save(new ComplaintEntity(new ComplaintId(1L, "A"), "Message", Instant.now(), "POLAND", 1L));
 
         //when//then
         webTestClient

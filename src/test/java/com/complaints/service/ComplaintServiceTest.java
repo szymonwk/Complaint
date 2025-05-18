@@ -1,7 +1,7 @@
 package com.complaints.service;
 
 import com.complaints.component.CountryIpExtractor;
-import com.complaints.component.DateCreator;
+import com.complaints.component.TimeHolder;
 import com.complaints.dto.ComplaintDto;
 import com.complaints.repository.ComplaintsRepository;
 import com.complaints.repository.entity.ComplaintEntity;
@@ -28,17 +28,17 @@ class ComplaintServiceTest {
     private CountryIpExtractor countryIpExtractor;
 
     @Mock
-    private DateCreator dateCreator;
+    private TimeHolder timeHolder;
 
     @Test
     void shouldListComplaints() {
         //given
-        ComplaintEntity complaintEntity = new ComplaintEntity(new ComplaintId(1, "A"), "message", Instant.now(), "POLAND", 1);
-        ComplaintEntity complaintEntity1 = new ComplaintEntity(new ComplaintId(2, "B"), "message", Instant.now(), "POLAND", 1);
+        ComplaintEntity complaintEntity = new ComplaintEntity(new ComplaintId(1L, "A"), "message", Instant.now(), "POLAND", 1L);
+        ComplaintEntity complaintEntity1 = new ComplaintEntity(new ComplaintId(2L, "B"), "message", Instant.now(), "POLAND", 1L);
         when(complaintsRepository.findAll()).thenReturn(Arrays.asList(complaintEntity, complaintEntity1));
 
         //when
-        List<ComplaintDto> complaintService = new ComplaintService(complaintsRepository, countryIpExtractor, dateCreator).getComplaints();
+        List<ComplaintDto> complaintService = new ComplaintService(complaintsRepository, countryIpExtractor, timeHolder).getComplaints();
 
         //then
         assertEquals(2, complaintService.size());

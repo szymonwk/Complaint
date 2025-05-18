@@ -23,7 +23,7 @@ public class ComplaintRest {
     }
 
     @PatchMapping("/{reporterName}/{productId}")
-    public void updateComplaint(@RequestBody ComplaintUpdateDto complaintDto, @PathVariable String reporterName, @PathVariable int productId) {
+    public void updateComplaint(@RequestBody ComplaintUpdateDto complaintDto, @PathVariable String reporterName, @PathVariable Long productId) {
         complaintService.updateComplaint(complaintDto, reporterName, productId);
     }
 

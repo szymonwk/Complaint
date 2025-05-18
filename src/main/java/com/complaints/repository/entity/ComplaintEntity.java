@@ -23,5 +23,5 @@ public class ComplaintEntity {
     @CreationTimestamp
     private Instant createdDate;
     private String country;
-    private long counter;
+    private Long counter;
 }

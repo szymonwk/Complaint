@@ -6,7 +6,7 @@ import java.time.Instant;
 
 @Value
 public class ComplaintDto {
-    int productId;
+    Long productId;
     String reporterName;
     String message;
     Instant createdDate;

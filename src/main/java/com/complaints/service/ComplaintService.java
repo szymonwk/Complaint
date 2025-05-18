@@ -1,7 +1,7 @@
 package com.complaints.service;
 
 import com.complaints.component.CountryIpExtractor;
-import com.complaints.component.DateCreator;
+import com.complaints.component.TimeHolder;
 import com.complaints.dto.ComplaintCreatorRequestDto;
 import com.complaints.dto.ComplaintDto;
 import com.complaints.dto.ComplaintUpdateDto;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ComplaintService {
     private final ComplaintsRepository complaintsRepository;
     private final CountryIpExtractor countryIpExtractor;
-    private final DateCreator dateCreator;
+    private final TimeHolder timeHolder;
 
     public void createComplaint(ComplaintCreatorRequestDto complaintCreatorRequestDto, HttpServletRequest httpServletRequest) {
         Optional<ComplaintEntity> complaint = complaintsRepository.findById(new ComplaintId(complaintCreatorRequestDto.getProductId(), complaintCreatorRequestDto.getReporterName()));
@@ -32,19 +32,19 @@ public class ComplaintService {
             complaintEntity.setCounter(complaintEntity.getCounter() + 1);
         } else {
             complaintEntity = new ComplaintEntity(new ComplaintId(complaintCreatorRequestDto.getProductId(), complaintCreatorRequestDto.getReporterName()),
-                    complaintCreatorRequestDto.getMessage(), dateCreator.getCurrentInstantDate(), countryIpExtractor.extractCountryIp(httpServletRequest.getRemoteAddr()), 1);
+                    complaintCreatorRequestDto.getMessage(), timeHolder.getCurrentInstantDate(), countryIpExtractor.extractCountryIp(httpServletRequest.getRemoteAddr()), 1L);
         }
         complaintsRepository.save(complaintEntity);
     }
 
-    public void updateComplaint(ComplaintUpdateDto complaintDto, String reporterName, int productId) {
+    public void updateComplaint(ComplaintUpdateDto complaintDto, String reporterName, Long productId) {
         ComplaintEntity complaint = complaintsRepository.findById(new ComplaintId(productId, reporterName)).orElseThrow(MissingComplaintException::new);
         complaint.setMessage(complaintDto.getMessage());
         complaintsRepository.save(complaint);
     }
 
     public List<ComplaintDto> getComplaints() {
-        List<ComplaintEntity> complaintEntities = (List<ComplaintEntity>) complaintsRepository.findAll();
+        List<ComplaintEntity> complaintEntities = complaintsRepository.findAll();
         return complaintEntities.parallelStream().map(complaintEntity -> new ComplaintDto(complaintEntity.getComplaintId().getProductId(), complaintEntity.getComplaintId().getReporterName(), complaintEntity.getMessage(), complaintEntity.getCreatedDate(), complaintEntity.getCountry(), complaintEntity.getCounter())).collect(Collectors.toList());
     }
 }

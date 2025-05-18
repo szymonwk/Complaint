@@ -12,6 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 public class ComplaintId implements Serializable {
-    private int productId;
+    private Long productId;
     private String reporterName;
 }
