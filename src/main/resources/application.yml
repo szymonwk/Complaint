@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: complaints
+  datasource:
+    url: jdbc:postgresql://${database.host}:${database.port}/${database.name}?createDatabaseIfNotExist=${database.createIfNotExists:false}
+    username: ${database.username}
+    password: ${database.password}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate:
+        type: trace

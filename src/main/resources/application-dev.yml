@@ -1,0 +1,6 @@
+database.username: postgres
+database.password: admin
+database.host: localhost
+database.port: 5436
+database.createIfNotExists: true
+database.name: postgres
